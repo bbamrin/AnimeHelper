@@ -29,10 +29,7 @@ public class ClassificationRecyclerAdapter extends RecyclerView.Adapter<Classifi
     private FragmentManager fragmentManager;
     private ClassificationRecyclerFragment fragment;
     private String WHAT_IS_HAPPENING;
-
-
-
-   private Map<Integer,ArrayList<Genre>> classificationWithGenresMatching;
+    private Map<String,ArrayList<Genre>> classificationWithGenresMatchingString;
 
 
 
@@ -53,7 +50,7 @@ public class ClassificationRecyclerAdapter extends RecyclerView.Adapter<Classifi
                                          Context context,
                                          OnItemClickListeners listener,
                                          FragmentManager manager,
-                                         Map<Integer,ArrayList<Genre>> classificationWithGenresMatching,
+                                         Map<String,ArrayList<Genre>> classificationWithGenresMatching,
                                          ClassificationRecyclerFragment fragment,
                                          String whatIsHappening){
         this.WHAT_IS_HAPPENING = whatIsHappening;
@@ -62,7 +59,7 @@ public class ClassificationRecyclerAdapter extends RecyclerView.Adapter<Classifi
         this.mListOfClassifications = list;
         this.listener = listener;
         this.fragmentManager = manager;
-        this.classificationWithGenresMatching = classificationWithGenresMatching;
+        this.classificationWithGenresMatchingString = classificationWithGenresMatching;
     }
 
 
@@ -83,12 +80,11 @@ public class ClassificationRecyclerAdapter extends RecyclerView.Adapter<Classifi
                     @Override
                     public void onClick(View v) {
                         if (listener!= null && getAdapterPosition()!=RecyclerView.NO_POSITION){
-                            Log.d(StaticVars.LOG_TAG,"hashmap" + " " + classificationWithGenresMatching);
                             listener.onClassificationItemClick(getAdapterPosition(),
                                     itemView,
                                     mCtx,
                                     fragmentManager,
-                                    classificationWithGenresMatching.get(getAdapterPosition()),
+                                    classificationWithGenresMatchingString.get(mListOfClassifications.get(getAdapterPosition()).getTextClassification()),
                                     fragment,
                                     mListOfClassifications.get(getAdapterPosition()).getTextClassification()
                                     );

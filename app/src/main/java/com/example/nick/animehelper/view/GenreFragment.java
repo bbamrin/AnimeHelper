@@ -107,6 +107,10 @@ public class GenreFragment extends Fragment {
             super.onStop();
             Intent intent = new Intent();
             intent.putExtra(StaticVars.CHOSEN_GENRES,list);
+            intent.putExtra(
+                    StaticVars.CLASSIFICATION_NAME,
+                    getArguments() == null ?"nullClassification":getArguments().getString(StaticVars.CLASSIFICATION_NAME)
+            );
             intent.putExtra(StaticVars.CLASSIFICATION_POSITION,classificationPosition);
             Fragment fragment = getTargetFragment();
             fragment.onActivityResult(StaticVars.CLASSIFICATION_REQUEST_CODE, Activity.RESULT_OK,intent);

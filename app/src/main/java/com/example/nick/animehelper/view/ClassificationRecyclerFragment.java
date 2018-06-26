@@ -36,8 +36,9 @@ public class ClassificationRecyclerFragment extends Fragment {
     Button searchButton;
     String chosenGenres;
     ArrayList<Classification> classificationList;
-    static Map<Integer, ArrayList<Genre>> classificationWithGenresMatching = new HashMap<>();
+    static Map<String, ArrayList<Genre>> classificationWithGenresMatchingString = new HashMap<>();
     ArrayList<ArrayList<Genre>> genresToFindAnime;
+    String returnedClassification;
     int returnedPosition =  -666;
 
     @Override
@@ -47,6 +48,7 @@ public class ClassificationRecyclerFragment extends Fragment {
             if (requestCode == StaticVars.CLASSIFICATION_REQUEST_CODE){
                 genres = data.getParcelableArrayListExtra(StaticVars.CHOSEN_GENRES);
                 returnedPosition = data.getIntExtra(StaticVars.CLASSIFICATION_POSITION,-1);
+                returnedClassification = data.getStringExtra(StaticVars.CLASSIFICATION_NAME);
                 Log.d(StaticVars.LOG_TAG, returnedPosition + "");
             }
         }
@@ -104,14 +106,15 @@ public class ClassificationRecyclerFragment extends Fragment {
                     StaticVars.STATE_WITHOUT_GENRES);
             recyclerView.setAdapter(classificationRecyclerAdapter);
         } else {
-            if (returnedPosition !=-666){
-                classificationWithGenresMatching.put(returnedPosition,genres);
+            if (returnedClassification != null){
+                classificationWithGenresMatchingString.put(returnedClassification,genres);
             }
 
-            for(int i = 0; i < classificationList.size();++i){
+            for (int i = 0; i < classificationList.size();++i){
+                Classification c = classificationList.get(i);
                 chosenGenres = "";
-                if(classificationWithGenresMatching.get(i) !=null){
-                    ArrayList<Genre> lotOfGenres = classificationWithGenresMatching.get(i);
+                if (classificationWithGenresMatchingString.get(c.getTextClassification())!=null){
+                    ArrayList<Genre> lotOfGenres = classificationWithGenresMatchingString.get(c.getTextClassification());
                     ArrayList<Genre> chosenGenresList = new ArrayList<>();
                     for(Genre g : lotOfGenres){
                         if (g.isChosen()){
@@ -130,12 +133,10 @@ public class ClassificationRecyclerFragment extends Fragment {
                                 chosenGenres +=" " + g.getTextGenre() + ".";
                             }
                         }
-
-
                     }
 
                 }
-                Classification oldClassification = classificationList.get(i);
+                Classification oldClassification = c;
                 Classification classificationNew = new Classification();
                 classificationNew.setTextClassification(oldClassification.getTextClassification());
                 classificationNew.setImageAddress(oldClassification.getImageAddress());
@@ -144,26 +145,18 @@ public class ClassificationRecyclerFragment extends Fragment {
                 classificationList.add(i,classificationNew);
                 classificationList.get(i).setChosenGenreText(chosenGenres);
 
-
             }
-
-
-
-
-
 
             ClassificationRecyclerAdapter classificationRecyclerAdapter = new ClassificationRecyclerAdapter(
                     classificationList,
                     getActivity().getBaseContext(),
                     ClickListenerFactory.getClassificationOnItemClickListenerWithGenres(),
                     getActivity().getSupportFragmentManager(),
-                    classificationWithGenresMatching,
+                    classificationWithGenresMatchingString,
                     this,
                     StaticVars.STATE_WITH_GENRES);
             recyclerView.setAdapter(classificationRecyclerAdapter);
         }
-
-
 
         return fragmentView;
     }
@@ -172,11 +165,6 @@ public class ClassificationRecyclerFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
-
-
-
-
 
     @Override
     public void onAttach(Context context) {
