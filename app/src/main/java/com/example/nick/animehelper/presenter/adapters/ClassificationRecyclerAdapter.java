@@ -1,4 +1,4 @@
-package com.example.nick.animehelper.presenter;
+package com.example.nick.animehelper.presenter.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,12 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.nick.animehelper.R;
-import com.example.nick.animehelper.model.Classification;
-import com.example.nick.animehelper.model.Genre;
-import com.example.nick.animehelper.model.StaticVars;
-import com.example.nick.animehelper.view.ClassificationRecyclerFragment;
+import com.example.nick.animehelper.model.internalModel.Classification;
+import com.example.nick.animehelper.model.internalModel.Genre;
+import com.example.nick.animehelper.model.internalModel.StaticVars;
+import com.example.nick.animehelper.presenter.clickListeners.OnItemClickListeners;
+import com.example.nick.animehelper.view.fragments.ClassificationRecyclerFragment;
 
-import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.Map;
 

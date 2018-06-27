@@ -1,4 +1,4 @@
-package com.example.nick.animehelper.model;
+package com.example.nick.animehelper.model.internalModel;
 
 import android.os.Parcel;
 import android.os.Parcelable;

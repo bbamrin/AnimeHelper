@@ -1,4 +1,4 @@
-package com.example.nick.animehelper.presenter;
+package com.example.nick.animehelper.presenter.clickListeners;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,11 +9,11 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.example.nick.animehelper.R;
-import com.example.nick.animehelper.model.Genre;
-import com.example.nick.animehelper.model.StaticVars;
-import com.example.nick.animehelper.view.ClassificationRecyclerFragment;
-import com.example.nick.animehelper.view.GenreFragment;
-import com.example.nick.animehelper.view.MainActivity;
+import com.example.nick.animehelper.model.internalModel.Genre;
+import com.example.nick.animehelper.model.internalModel.StaticVars;
+import com.example.nick.animehelper.presenter.adapters.GenreRecyclerViewAdapter;
+import com.example.nick.animehelper.view.fragments.ClassificationRecyclerFragment;
+import com.example.nick.animehelper.view.fragments.GenreFragment;
 
 import java.util.ArrayList;
 
@@ -110,7 +110,7 @@ public class ClickListenerFactory {
     }
 
 
-    static public OnItemClickListeners getOnClearBUttonClickListener(GenreRecyclerViewAdapter adapterF,ArrayList<Genre> listF){
+    static public OnItemClickListeners getOnClearBUttonClickListener(GenreRecyclerViewAdapter adapterF, ArrayList<Genre> listF){
         return new OnItemClickListeners() {
             @Override
             public void onClearButtonClickListener(GenreRecyclerViewAdapter adapter, ArrayList<Genre> list) {

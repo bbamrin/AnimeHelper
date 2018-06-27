@@ -1,12 +1,12 @@
-package com.example.nick.animehelper.presenter;
+package com.example.nick.animehelper.presenter.clickListeners;
 
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
-import com.example.nick.animehelper.model.Genre;
-import com.example.nick.animehelper.view.ClassificationRecyclerFragment;
-import com.example.nick.animehelper.view.MainActivity;
+import com.example.nick.animehelper.model.internalModel.Genre;
+import com.example.nick.animehelper.presenter.adapters.GenreRecyclerViewAdapter;
+import com.example.nick.animehelper.view.fragments.ClassificationRecyclerFragment;
 
 import java.util.ArrayList;
 

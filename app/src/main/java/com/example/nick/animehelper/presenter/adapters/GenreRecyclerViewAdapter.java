@@ -1,4 +1,4 @@
-package com.example.nick.animehelper.presenter;
+package com.example.nick.animehelper.presenter.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,7 +10,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.nick.animehelper.R;
-import com.example.nick.animehelper.model.Genre;
+import com.example.nick.animehelper.model.internalModel.Genre;
+import com.example.nick.animehelper.presenter.clickListeners.OnItemClickListeners;
 
 import java.util.ArrayList;
 

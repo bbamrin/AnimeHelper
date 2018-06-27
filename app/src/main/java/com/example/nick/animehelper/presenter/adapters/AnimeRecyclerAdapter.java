@@ -1,4 +1,4 @@
-package com.example.nick.animehelper.presenter;
+package com.example.nick.animehelper.presenter.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.nick.animehelper.R;
-import com.example.nick.animehelper.model.Anime;
+import com.example.nick.animehelper.model.internalModel.Anime;
 
 import java.util.ArrayList;
 

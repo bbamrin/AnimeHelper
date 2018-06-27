@@ -1,4 +1,4 @@
-package com.example.nick.animehelper.view;
+package com.example.nick.animehelper.view.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -12,7 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.nick.animehelper.R;
-import com.example.nick.animehelper.model.StaticVars;
+import com.example.nick.animehelper.model.internalModel.StaticVars;
+import com.example.nick.animehelper.view.fragments.ClassificationRecyclerFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

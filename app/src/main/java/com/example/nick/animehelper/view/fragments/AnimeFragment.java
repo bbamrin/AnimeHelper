@@ -1,27 +1,20 @@
-package com.example.nick.animehelper.view;
+package com.example.nick.animehelper.view.fragments;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.nick.animehelper.R;
-import com.example.nick.animehelper.model.Anime;
-import com.example.nick.animehelper.model.Genre;
-import com.example.nick.animehelper.model.StaticVars;
-import com.example.nick.animehelper.presenter.AnimeRecyclerAdapter;
-import com.example.nick.animehelper.presenter.ClickListenerFactory;
-import com.example.nick.animehelper.presenter.GenreRecyclerViewAdapter;
+import com.example.nick.animehelper.model.internalModel.Anime;
+import com.example.nick.animehelper.model.internalModel.Genre;
+import com.example.nick.animehelper.presenter.adapters.AnimeRecyclerAdapter;
 
 import java.util.ArrayList;
 

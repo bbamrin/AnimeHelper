@@ -1,4 +1,4 @@
-package com.example.nick.animehelper.model;
+package com.example.nick.animehelper.model.internalModel;
 
 import java.util.ArrayList;
 

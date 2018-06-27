@@ -1,4 +1,4 @@
-package com.example.nick.animehelper.view;
+package com.example.nick.animehelper.view.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,10 +16,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.nick.animehelper.R;
-import com.example.nick.animehelper.model.Genre;
-import com.example.nick.animehelper.model.StaticVars;
-import com.example.nick.animehelper.presenter.ClickListenerFactory;
-import com.example.nick.animehelper.presenter.GenreRecyclerViewAdapter;
+import com.example.nick.animehelper.model.internalModel.Genre;
+import com.example.nick.animehelper.model.internalModel.StaticVars;
+import com.example.nick.animehelper.presenter.clickListeners.ClickListenerFactory;
+import com.example.nick.animehelper.presenter.adapters.GenreRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
