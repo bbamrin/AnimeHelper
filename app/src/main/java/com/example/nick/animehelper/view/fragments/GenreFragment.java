@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 public class GenreFragment extends Fragment {
     RecyclerView recyclerView;
-    ArrayList<Genre> list;
+    ArrayList<Genre> genreList;
     String classificationName;
     Button clearButton;
     static GenreRecyclerViewAdapter adapter;
@@ -51,7 +51,7 @@ public class GenreFragment extends Fragment {
         Genre genre = new Genre();
         genre.setTextGenre("pacanskiy_flex");
         if(getArguments()!=null){
-            list =  getArguments().getParcelableArrayList(StaticVars.GENRE_PARCELABLE_KEY);
+            genreList =  getArguments().getParcelableArrayList(StaticVars.GENRE_PARCELABLE_KEY);
             classificationPosition = getArguments().getInt(StaticVars.CLASSIFICATION_POSITION);
             classificationName = getArguments().getString(StaticVars.CLASSIFICATION_NAME);
         }
@@ -59,20 +59,20 @@ public class GenreFragment extends Fragment {
         TextView textView = (TextView)getActivity().findViewById(R.id.applicationNameTextView);
         textView.setText(classificationName);
 
-        if (list== null){
-            list = new ArrayList<>();
-            list.add(genre);
-            list.add(genre);
-            list.add(genre);
-            list.add(genre);
-            list.add(genre);
-            list.add(genre);
+        if (genreList == null){
+            genreList = new ArrayList<>();
+            genreList.add(genre);
+            genreList.add(genre);
+            genreList.add(genre);
+            genreList.add(genre);
+            genreList.add(genre);
+            genreList.add(genre);
 
         }
 
 
          adapter = new GenreRecyclerViewAdapter(
-                list,
+                 genreList,
                 getContext(),
                 ClickListenerFactory.getOnGenreItemClickListener()
         );
@@ -80,7 +80,7 @@ public class GenreFragment extends Fragment {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(Genre g: list){
+                for(Genre g: genreList){
                     g.setChosen(false);
                 }
                 adapter.notifyDataSetChanged();
@@ -106,7 +106,7 @@ public class GenreFragment extends Fragment {
         if(getTargetFragment() != null){
             super.onStop();
             Intent intent = new Intent();
-            intent.putExtra(StaticVars.CHOSEN_GENRES,list);
+            intent.putExtra(StaticVars.CHOSEN_GENRES, genreList);
             intent.putExtra(
                     StaticVars.CLASSIFICATION_NAME,
                     getArguments() == null ?"nullClassification":getArguments().getString(StaticVars.CLASSIFICATION_NAME)

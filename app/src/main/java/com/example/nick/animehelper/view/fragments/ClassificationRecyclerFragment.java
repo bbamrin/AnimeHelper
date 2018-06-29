@@ -36,13 +36,16 @@ public class ClassificationRecyclerFragment extends Fragment {
     Button searchButton;
     String chosenGenres;
     ArrayList<Classification> classificationList;
-    static Map<String, ArrayList<Genre>> classificationWithGenresMatchingString = new HashMap<>();
+    Map<String, ArrayList<Genre>> classificationWithGenresMatchingString;
     ArrayList<ArrayList<Genre>> genresToFindAnime;
     String returnedClassification;
     int returnedPosition =  -666;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK){
             if (requestCode == StaticVars.CLASSIFICATION_REQUEST_CODE){
@@ -57,6 +60,7 @@ public class ClassificationRecyclerFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         genresToFindAnime = new ArrayList<>();
 
         TextView textView =  (TextView)getActivity().findViewById(R.id.applicationNameTextView);
@@ -97,6 +101,8 @@ public class ClassificationRecyclerFragment extends Fragment {
 
 
         if(genres==null){
+            classificationWithGenresMatchingString = new HashMap<>();
+
             ClassificationRecyclerAdapter classificationRecyclerAdapter = new ClassificationRecyclerAdapter(
                     classificationList,
                     getActivity().getBaseContext(),
