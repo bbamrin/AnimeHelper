@@ -1,5 +1,5 @@
 
-package com.example.nick.animehelper.model.retrofitModel;
+package com.example.nick.animehelper.model.retrofitModel.children;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

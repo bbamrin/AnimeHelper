@@ -9,4 +9,5 @@
     <string name="next">next</string>
     <string name="find">find anime with chosen parametres</string>
     <string name="clear">clear selection</string>
+    <string name="clearAll">clear all choices</string>
 </resources>

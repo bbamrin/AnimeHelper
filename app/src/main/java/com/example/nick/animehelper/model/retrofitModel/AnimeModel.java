@@ -2,6 +2,12 @@
 package com.example.nick.animehelper.model.retrofitModel;
 
 import java.util.List;
+
+import com.example.nick.animehelper.model.retrofitModel.children.Genre;
+import com.example.nick.animehelper.model.retrofitModel.children.Image;
+import com.example.nick.animehelper.model.retrofitModel.children.RatesScoresStat;
+import com.example.nick.animehelper.model.retrofitModel.children.RatesStatusesStat;
+import com.example.nick.animehelper.model.retrofitModel.children.Studio;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

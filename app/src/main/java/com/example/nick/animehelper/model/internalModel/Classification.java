@@ -1,7 +1,7 @@
 package com.example.nick.animehelper.model.internalModel;
 
 public class Classification {
-    private String textClassification;
+    private String classificationName;
     private String imageAddress;
     private String chosenGenreText;
 
@@ -24,12 +24,12 @@ public class Classification {
     }
 
 
-    public String getTextClassification() {
-        return textClassification;
+    public String getClassificationName() {
+        return classificationName;
     }
 
-    public void setTextClassification(String text) {
-        this.textClassification = text;
+    public void setClassificationName(String text) {
+        this.classificationName = text;
     }
 
     public String getImageAddress() {

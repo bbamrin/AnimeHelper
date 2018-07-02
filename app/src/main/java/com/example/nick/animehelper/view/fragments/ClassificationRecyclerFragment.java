@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,8 @@ import com.example.nick.animehelper.model.internalModel.Genre;
 import com.example.nick.animehelper.model.internalModel.StaticVars;
 import com.example.nick.animehelper.presenter.adapters.ClassificationRecyclerAdapter;
 import com.example.nick.animehelper.presenter.clickListeners.ClickListenerFactory;
+import com.example.nick.animehelper.presenter.clickListeners.OnItemClickListeners;
+import com.example.nick.animehelper.presenter.layoutManagers.CustomLinearLayoutManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,11 @@ public class ClassificationRecyclerFragment extends Fragment {
     RecyclerView recyclerView;
     ArrayList<Genre> genres;
     View fragmentView;
+    ClassificationRecyclerAdapter classificationRecyclerAdapter;
+    OnItemClickListeners onSearchButtonClick;
+    OnItemClickListeners onClearAllButtonClick;
     Button searchButton;
+    Button clearAllButton;
     String chosenGenres;
     ArrayList<Classification> classificationList;
     Map<String, ArrayList<Genre>> classificationWithGenresMatchingString;
@@ -52,7 +57,7 @@ public class ClassificationRecyclerFragment extends Fragment {
                 genres = data.getParcelableArrayListExtra(StaticVars.CHOSEN_GENRES);
                 returnedPosition = data.getIntExtra(StaticVars.CLASSIFICATION_POSITION,-1);
                 returnedClassification = data.getStringExtra(StaticVars.CLASSIFICATION_NAME);
-                Log.d(StaticVars.LOG_TAG, returnedPosition + "");
+
             }
         }
     }
@@ -62,48 +67,57 @@ public class ClassificationRecyclerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         genresToFindAnime = new ArrayList<>();
-
-        TextView textView =  (TextView)getActivity().findViewById(R.id.applicationNameTextView);
-        textView.setText(getString(R.string.app_name));
-
-
-
-
+        onClearAllButtonClick = ClickListenerFactory.getOnClearAllButtonClickListener();
+        onSearchButtonClick = ClickListenerFactory.getOnSearchButtonClickListener();
 
         fragmentView = inflater.inflate(R.layout.recycler_fragment_layout,container,false);
-        searchButton  = (Button)fragmentView.findViewById(R.id.multiFunctionalButton);
+        TextView textView =  (TextView)getActivity().findViewById(R.id.applicationNameTextView);
+        textView.setText(getString(R.string.app_name));
+        searchButton  = (Button)fragmentView.findViewById(R.id.clearOrSearchButton);
+        clearAllButton = (Button)fragmentView.findViewById(R.id.clearAllButton);
         searchButton.setText(getString(R.string.find));
+        clearAllButton.setText(getString(R.string.clearAll));
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().
-                        getSupportFragmentManager().
-                        beginTransaction().
-                        replace(R.id.animeFragmentContainer , new AnimeFragment(),StaticVars.ANIME_FRAGMENT_TAG).
-                        addToBackStack(StaticVars.BACKSTACK).
-                        commit();
+                onSearchButtonClick.onSearchButtonClickListener(classificationList,classificationWithGenresMatchingString,getActivity().getSupportFragmentManager());
+            }
+        });
+        clearAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClearAllButtonClick.onClearAllButtonClickListener(classificationRecyclerAdapter,classificationWithGenresMatchingString,classificationList);
             }
         });
 
 
+
+
+
+
         recyclerView = (RecyclerView)fragmentView.findViewById(R.id.animeRecycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        recyclerView.setLayoutManager(new CustomLinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
 
 
         classificationList = new ArrayList<>();
-        Classification cl =  new Classification();
-        Classification classification = new Classification();
-        classification.setTextClassification("сеттинг");
-        cl.setTextClassification("жанр");
-        classificationList.add(cl);
-        classificationList.add(classification);
+        Classification age = new Classification();
+        age.setClassificationName(StaticVars.TARGET_AUDIENCE);
+        Classification setting = new Classification();
+        setting.setClassificationName(StaticVars.SETTING);
+        Classification technologies = new Classification();
+        technologies.setClassificationName(StaticVars.ANTOURAGE);
+        Classification style = new Classification();
+        style.setClassificationName(StaticVars.STYLE_OF_NARRATIVE);
 
+        classificationList.add(age);
+        classificationList.add(setting);
+        classificationList.add(technologies);
+        classificationList.add(style);
 
 
         if(genres==null){
             classificationWithGenresMatchingString = new HashMap<>();
-
-            ClassificationRecyclerAdapter classificationRecyclerAdapter = new ClassificationRecyclerAdapter(
+            classificationRecyclerAdapter = new ClassificationRecyclerAdapter(
                     classificationList,
                     getActivity().getBaseContext(),
                     ClickListenerFactory.getClassificationOnItemClickListenerWithoutGenres(),
@@ -119,8 +133,8 @@ public class ClassificationRecyclerFragment extends Fragment {
             for (int i = 0; i < classificationList.size();++i){
                 Classification c = classificationList.get(i);
                 chosenGenres = "";
-                if (classificationWithGenresMatchingString.get(c.getTextClassification())!=null){
-                    ArrayList<Genre> lotOfGenres = classificationWithGenresMatchingString.get(c.getTextClassification());
+                if (classificationWithGenresMatchingString.get(c.getClassificationName())!=null){
+                    ArrayList<Genre> lotOfGenres = classificationWithGenresMatchingString.get(c.getClassificationName());
                     ArrayList<Genre> chosenGenresList = new ArrayList<>();
                     for(Genre g : lotOfGenres){
                         if (g.isChosen()){
@@ -133,8 +147,7 @@ public class ClassificationRecyclerFragment extends Fragment {
                         if (g.isChosen()){
                             if (k!=chosenGenresList.size()-1){
                                 chosenGenres +=" " + g.getTextGenre()+",";
-                                Log.d(StaticVars.LOG_TAG,"k: " + k);
-                                Log.d(StaticVars.LOG_TAG,"size: " + lotOfGenres.size());
+
                             } else{
                                 chosenGenres +=" " + g.getTextGenre() + ".";
                             }
@@ -144,7 +157,7 @@ public class ClassificationRecyclerFragment extends Fragment {
                 }
                 Classification oldClassification = c;
                 Classification classificationNew = new Classification();
-                classificationNew.setTextClassification(oldClassification.getTextClassification());
+                classificationNew.setClassificationName(oldClassification.getClassificationName());
                 classificationNew.setImageAddress(oldClassification.getImageAddress());
                 classificationNew.setChosenGenreText(chosenGenres);
                 classificationList.remove(i);
@@ -153,7 +166,7 @@ public class ClassificationRecyclerFragment extends Fragment {
 
             }
 
-            ClassificationRecyclerAdapter classificationRecyclerAdapter = new ClassificationRecyclerAdapter(
+            classificationRecyclerAdapter= new ClassificationRecyclerAdapter(
                     classificationList,
                     getActivity().getBaseContext(),
                     ClickListenerFactory.getClassificationOnItemClickListenerWithGenres(),
@@ -163,6 +176,17 @@ public class ClassificationRecyclerFragment extends Fragment {
                     StaticVars.STATE_WITH_GENRES);
             recyclerView.setAdapter(classificationRecyclerAdapter);
         }
+
+
+
+
+
+
+
+
+
+
+
 
         return fragmentView;
     }

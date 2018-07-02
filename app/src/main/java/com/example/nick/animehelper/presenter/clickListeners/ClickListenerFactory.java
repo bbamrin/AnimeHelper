@@ -3,19 +3,21 @@ package com.example.nick.animehelper.presenter.clickListeners;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.example.nick.animehelper.R;
+import com.example.nick.animehelper.model.internalModel.Classification;
 import com.example.nick.animehelper.model.internalModel.Genre;
 import com.example.nick.animehelper.model.internalModel.StaticVars;
-import com.example.nick.animehelper.presenter.adapters.GenreRecyclerViewAdapter;
+import com.example.nick.animehelper.presenter.adapters.ClassificationRecyclerAdapter;
+import com.example.nick.animehelper.view.fragments.AnimeFragment;
 import com.example.nick.animehelper.view.fragments.ClassificationRecyclerFragment;
 import com.example.nick.animehelper.view.fragments.GenreFragment;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ClickListenerFactory {
     static public OnItemClickListeners getClassificationOnItemClickListenerWithoutGenres(){
@@ -29,11 +31,6 @@ public class ClickListenerFactory {
                                                   String classificationName) {
                 //добавить тэг фрагмента в staticVars
                 ClassificationRecyclerFragment fragmentClassification = fragment;
-                if (fragmentClassification==null){
-                    Log.d(StaticVars.LOG_TAG,"class fr null");
-                } else{
-                    Log.d(StaticVars.LOG_TAG,"class fr not null");
-                }
                 GenreFragment genreFragment = new GenreFragment();
                 Bundle args = new Bundle();
                 args.putString(StaticVars.CLASSIFICATION_NAME,classificationName);
@@ -64,7 +61,7 @@ public class ClickListenerFactory {
                                                   ClassificationRecyclerFragment fragment,
                                                   String classificationName) {
                 //добавить тэг фрагмента в staticVars
-                Log.d(StaticVars.LOG_TAG,"sosi");
+
 
                 ClassificationRecyclerFragment fragmentClassification = fragment;
                 GenreFragment genreFragment = new GenreFragment();
@@ -110,7 +107,7 @@ public class ClickListenerFactory {
     }
 
 
-    static public OnItemClickListeners getOnClearBUttonClickListener(GenreRecyclerViewAdapter adapterF, ArrayList<Genre> listF){
+    /*static public OnItemClickListeners getOnClearButtonClickListener(GenreRecyclerViewAdapter adapterF, ArrayList<Genre> listF){
         return new OnItemClickListeners() {
             @Override
             public void onClearButtonClickListener(GenreRecyclerViewAdapter adapter, ArrayList<Genre> list) {
@@ -119,6 +116,56 @@ public class ClickListenerFactory {
                     i.setChosen(false);
                 }
                 adapter.notifyItemRangeChanged(0,list.size());
+
+            }
+        };
+    }*/
+
+
+    static public OnItemClickListeners getOnClearAllButtonClickListener(){
+        return new OnItemClickListeners() {
+            @Override
+            public void onClearAllButtonClickListener(ClassificationRecyclerAdapter adapter, Map<String, ArrayList<Genre>> genresWithClassificationMatching,ArrayList<Classification> classificationList) {
+                for(Classification c:classificationList){
+                    ArrayList<Genre> genres = genresWithClassificationMatching.get(c.getClassificationName());
+                    if (genres!=null){
+                        for(Genre g: genres){
+                            g.setChosen(false);
+                        }
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+        };
+    }
+
+    static public OnItemClickListeners getOnSearchButtonClickListener(){
+        return new OnItemClickListeners() {
+            @Override
+            public void onSearchButtonClickListener(ArrayList<Classification> classificationList, Map<String, ArrayList<Genre>> genresWithClassificationMatching, FragmentManager manager) {
+                AnimeFragment animes =  new AnimeFragment();
+                ArrayList<String> listOfGenresToFind= new ArrayList<>();
+                for (int i = 0; i < classificationList.size();++i) {
+                    Classification c = classificationList.get(i);
+                    if (genresWithClassificationMatching.get(c.getClassificationName()) != null) {
+                        ArrayList<Genre> lotOfGenres = genresWithClassificationMatching.get(c.getClassificationName());
+                        for (Genre g : lotOfGenres) {
+                            if (g.isChosen()) {
+                                listOfGenresToFind.add(g.getTextGenre());
+                            }
+                        }
+                    }
+                }
+
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList(StaticVars.CHOSEN_GENRES,listOfGenresToFind);
+                animes.setArguments(bundle);
+
+                manager.
+                        beginTransaction().
+                        replace(R.id.animeFragmentContainer ,animes,StaticVars.ANIME_FRAGMENT_TAG).
+                        addToBackStack(StaticVars.BACKSTACK).
+                        commit();
 
             }
         };

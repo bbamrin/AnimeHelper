@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,9 +83,9 @@ public class ClassificationRecyclerAdapter extends RecyclerView.Adapter<Classifi
                                     itemView,
                                     mCtx,
                                     fragmentManager,
-                                    classificationWithGenresMatchingString.get(mListOfClassifications.get(getAdapterPosition()).getTextClassification()),
+                                    classificationWithGenresMatchingString.get(mListOfClassifications.get(getAdapterPosition()).getClassificationName()),
                                     fragment,
-                                    mListOfClassifications.get(getAdapterPosition()).getTextClassification()
+                                    mListOfClassifications.get(getAdapterPosition()).getClassificationName()
                                     );
                         }
                     }
@@ -102,7 +101,7 @@ public class ClassificationRecyclerAdapter extends RecyclerView.Adapter<Classifi
                                     mCtx,
                                     fragmentManager,
                                     fragment,
-                                    mListOfClassifications.get(getAdapterPosition()).getTextClassification());
+                                    mListOfClassifications.get(getAdapterPosition()).getClassificationName());
                         }
                     }
                 });
@@ -126,14 +125,35 @@ public class ClassificationRecyclerAdapter extends RecyclerView.Adapter<Classifi
 
     @Override
     public void onBindViewHolder(@NonNull ClassificationRecyclerAdapter.ViewHolder holder, int position) {
-        Classification item = mListOfClassifications.get(position);
-        Log.d(StaticVars.LOG_TAG,item.getChosenGenreText() + " adapter");
-        holder.textViewClassification.setText(item.getTextClassification());
+        Classification classification = mListOfClassifications.get(position);
+
+
+        holder.textViewClassification.setText(classification.getClassificationName());
         if(WHAT_IS_HAPPENING.equals(StaticVars.STATE_WITH_GENRES)){
-            holder.textViewChosen.setText(item.getChosenGenreText());
+
+            ArrayList<Genre> genresList = new ArrayList<>();
+            if (classificationWithGenresMatchingString!=null){
+                genresList  = classificationWithGenresMatchingString.get(classification.getClassificationName());
+            }
+            String classificationGenresText = "";
+            if (genresList != null){
+                for(int i = 0; i < genresList.size();++i){
+                    if (genresList.get(i).isChosen()){
+                        classificationGenresText+=genresList.get(i).getTextGenre() + ", ";
+                    }
+                }
+            }
+            StringBuilder builder = new StringBuilder(classificationGenresText);
+            if (classificationGenresText!=""){
+                builder.setCharAt(classificationGenresText.length()-2,'.');
+            }
+
+            classificationGenresText = builder.toString();
+            classification.setChosenGenreText(classificationGenresText);
+            holder.textViewChosen.setText(classification.getChosenGenreText());
         }
 
-        //картинка жожЫ
+
         holder.imageView.setImageDrawable(mCtx.getResources().getDrawable((R.drawable.pacanskiy_flex)));
 
     }

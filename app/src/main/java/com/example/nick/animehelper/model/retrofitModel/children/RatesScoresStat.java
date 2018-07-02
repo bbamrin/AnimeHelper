@@ -1,24 +1,24 @@
 
-package com.example.nick.animehelper.model.retrofitModel;
+package com.example.nick.animehelper.model.retrofitModel.children;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class RatesStatusesStat {
+public class RatesScoresStat {
 
     @SerializedName("name")
     @Expose
-    private String name;
+    private Integer name;
     @SerializedName("value")
     @Expose
     private Integer value;
 
-    public String getName() {
+    public Integer getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Integer name) {
         this.name = name;
     }
 

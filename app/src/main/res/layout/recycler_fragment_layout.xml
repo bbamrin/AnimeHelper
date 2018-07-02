@@ -14,10 +14,18 @@
 
     </android.support.v7.widget.RecyclerView>
     <Button
-        android:id="@+id/multiFunctionalButton"
+        android:id="@+id/clearAllButton"
         android:layout_width="match_parent"
-        android:layout_weight="7"
+        android:layout_weight="4"
         android:layout_height="match_parent" />
+
+
+    <Button
+        android:id="@+id/clearOrSearchButton"
+        android:layout_width="match_parent"
+        android:layout_weight="4"
+        android:layout_height="match_parent" />
+
 
 
 
